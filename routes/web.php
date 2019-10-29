@@ -61,10 +61,14 @@ Route::get('test','templateController@create');
 //User Management
 
 Route::get('createUser', 'UserController@create');
-
-
 Route::resource('user', 'UserController');
+Route::post('userProfile', 'UserController@userProfile');
 Route::post('filter','UserController@filter');
+
+
+//Rank Management
+Route::resource('rank','RankController');
+
 
 
 

@@ -14,7 +14,7 @@ class UserController extends Controller {
         if(!empty($request->search)){
           $users =$users->where ('first_name', 'LIKE', "%".$request->search."%");
         }
-        $users =$users->paginate(5);
+        $users =$users->paginate(2);
         return view('user.viewUser',[ 'users' => $users]);
     }
 
@@ -69,9 +69,9 @@ class UserController extends Controller {
         return view('user.edit', ['userInfo' => $userInfo,'hobbyArr'=> $hobbyArr,'previousHobby'=>$previousHobby]);
     }
     
-     public function show($id) {
-        $userInfo = User::find($id);
-//        echo '<pre>';        print_r($userInfo);exit;
+     public function userProfile(Request $request) {
+        
+        $userInfo = User::find($request->id);
         $previousHobby= explode(',', $userInfo->hobby);
         $hobbyArr=["1"=>"Song", "2"=>"Poem","3"=>"Gardening"];
         
@@ -84,9 +84,13 @@ class UserController extends Controller {
         $previousStatus= explode(',', $userInfo->status);
         $statusArr=['1' => 'Active','2'=>'Inactive','3'=>'Under processing'];
         
-        return view('user.showProfile',['userInfo' => $userInfo,'hobbyArr'=> $hobbyArr,'previousHobby'=>$previousHobby,
+//        return view('user.showProfile', ['userInfo' => $userInfo,'hobbyArr'=> $hobbyArr,'previousHobby'=>$previousHobby,
+//            'previousCountry'=>$previousCountry,'country'=>$country,'previousGender'=>$previousGender,'genderArr'=>$genderArr,
+//            'previousStatus'=>$previousStatus,'statusArr'=>$statusArr]);
+        $jsonView=view('user.showProfile',['userInfo' => $userInfo,'hobbyArr'=> $hobbyArr,'previousHobby'=>$previousHobby,
             'previousCountry'=>$previousCountry,'country'=>$country,'previousGender'=>$previousGender,'genderArr'=>$genderArr,
-            'previousStatus'=>$previousStatus,'statusArr'=>$statusArr]);
+            'previousStatus'=>$previousStatus,'statusArr'=>$statusArr])->render();
+        return response()->json(['view' =>$jsonView]);
     }
 
     public function update(Request $request, $id) {

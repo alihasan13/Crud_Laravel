@@ -7,9 +7,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
     <!-- Favicon icon -->
     <link rel="icon" type="image/png" sizes="16x16" href="<?php echo e(asset('public/assets/images/favicon.png')); ?>">
-    <title>Material Pro Admin Template - The Most Complete & Trusted Bootstrap 4 Admin Template</title>
+    <title>Laravel CRUD Operation</title>
     <!-- Bootstrap Core CSS -->
     <link href="<?php echo e(asset('public/assets/plugins/bootstrap/css/bootstrap.min.css')); ?>" rel="stylesheet">
     <!-- chartist CSS -->
@@ -21,6 +22,7 @@
     <link href="<?php echo e(asset('public/css/style.css')); ?>" rel="stylesheet">
     <!-- You can change the theme colors from here -->
     <link href="<?php echo e(asset('public/css/colors/blue.css')); ?>" id="theme" rel="stylesheet">
+    <script src="<?php echo e(asset('public/js/jquery.js')); ?>"></script>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>

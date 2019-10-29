@@ -10,6 +10,8 @@
                 </li>
                 <li> <a class="waves-effect waves-dark" href="<?php echo e(URL::to('user')); ?>" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">View Users</span></a>
                 </li>
+                <li> <a class="waves-effect waves-dark" href="<?php echo e(URL::to('rank')); ?>" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Rank Table</span></a>
+                </li>
                 <li> <a class="waves-effect waves-dark" href="<?php echo e(URL::to('createUser')); ?>" aria-expanded="false"><i class="mdi mdi-account-plus"></i><span class="hide-menu">Create User</span></a>
                 </li><!--
                 <li> <a class="waves-effect waves-dark" href="pages-blank.html" aria-expanded="false"><i class="mdi mdi-book-open-variant"></i><span class="hide-menu">Blank Page</span></a>
