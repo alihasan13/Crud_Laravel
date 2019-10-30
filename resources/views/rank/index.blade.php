@@ -4,14 +4,27 @@
     <div class="text-center">
         <h3>All Users</h3>
     </div>
-    <div>
-        <a  class="btn btn-primary "href="{{ URL::to('rank/create') }}">Create Rank</a>
+    <div >
+        {{Form::open(['url'=>'rank/filter','method'=>'post'])}}
+            <div class="d-flex">
+                <div class="form-group col-md-4"> 
+                    {{Form::text('text',null,['class'=>'form-control'])}}
+                </div>
+                <div class=" col form-group">
+                    {{Form::submit('Search',['class' => 'btn btn-primary'])}}
+                </div>
+            </div>
+        {{Form::Close()}}
     </div>
     <div class="row">
         <div class="col">
             <div class="card">
                 <div class="card-block">
+                    @include ('defaults.flash')
                     <div class="table-responsive">
+                        <div class="pull-right">
+                            <a  class="btn btn-primary "href="{{ URL::to('rank/create') }}">Create Rank</a>
+                        </div>
                         <table class="table table-dark">
                             <thead>
                                 <tr>
@@ -22,24 +35,45 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach($user as $member)
+                                @foreach($rankList as $ranks)
                                 <tr>
 
-                                    <td>{{$member->name}}</td>
-                                    <td>{{$member->code}}</td>
-                                    <td>{{$member->status}}</td>
+                                    <td>{{$ranks->name}}</td>
+                                    <td>{{$ranks->code}}</td>
                                     <td>
-                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-danger delete tooltips"  ><i class="mdi mdi-account-edit"></i></a>
-                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-danger tooltips modal-show"  ><i class="mdi mdi-face-profile"></i></a>
-                                       <button class="btn btn-icon-only btn-danger delete tooltips" title="Delete" type="submit" data-placement="top" data-rel="tooltip" data-original-title="Delete">
-                                                <i class="mdi mdi-delete-sweep"></i></button>
-                                        </button>
+                                        <?php
+                                        $label = '';
+                                        if ($ranks->status == '1') {
+                                            $label = 'label-success';
+                                        } else if ($ranks->status == '2') {
+                                            $label = 'label-danger';
+                                        }
+                                        ?>
+                                        <span class="label {{$label}}">
+                                            {{ isset($ranks->status) && isset($statusArr[$ranks->status]) ? $statusArr[$ranks->status] : ''}}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <div>
+                                            {{ Form::open(array('url' => 'rank/' . $ranks->id)) }}
+                                            {{ Form::hidden('_method', 'DELETE') }}
+                                            <a class="waves-effect waves-dark  btn btn-icon-only btn-danger  tooltips" href="{{URL::to('rank/'.$ranks->id.'/edit?Helper::pageDefine($pageArr)')}}" ><i class="mdi mdi-account-edit"></i></a>
+                                            <button class="btn btn-icon-only btn-success delete tooltips" title="Delete" type="submit" data-placement="top" data-rel="tooltip" data-original-title="Delete">
+                                                <i class="mdi mdi-delete-sweep"></i>
+                                            </button>
+                                            {{Form::close()}}
+
+                                        </div>
+
                                     </td>
                                 </tr>
                                 @endforeach
-                                {{ $user->links() }}
                             </tbody>
+
                         </table>
+                        <div class="pull-right">
+                            {{ $rankList->links() }}
+                        </div>
                     </div>
                 </div>
             </div>

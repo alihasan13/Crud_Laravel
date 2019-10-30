@@ -67,7 +67,14 @@ Route::post('filter','UserController@filter');
 
 
 //Rank Management
-Route::resource('rank','RankController');
+Route::post('rank/filter','RankController@filter');
+Route::get('/rank','RankController@index');
+
+Route::GET('/rank/create','RankController@create')->name('create');
+Route::POST('/rank','RankController@store')->name('store');
+Route::get('/rank/{id}/edit','RankController@edit')->name('edit');
+Route::patch('/rank/{id}','RankController@update')->name('update');
+Route::DELETE('/rank/{id}','RankController@destroy')->name('delete');
 
 
 
