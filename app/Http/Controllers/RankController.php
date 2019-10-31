@@ -8,6 +8,8 @@ use DB;
 use Session;
 use Validator;
 use Helper;
+use PDF;
+use Excel;
 
 class RankController extends Controller {
 
@@ -17,17 +19,34 @@ class RankController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        //echo '<pre>';print_r($request->all());exit;
+        
         $pageArr = $request->all();
         $rankList = Rank::select('*');
         
         if(!empty($request->search)){
-            $rankList=$rankList->where('code','LIKE', "%".$request->search."%");
+            $rankList = $rankList->where('code','LIKE', "%".$request->search."%");
         }
-        $rankList=$rankList->orderBy('id','DESC')->paginate(10);
+        if(!empty($request->id)){
+           $rankList = $rankList->where('id',$request->id);   
+        }
+        $rankList = $rankList->orderBy('id','DESC');
         
         $statusArr = ['1' => 'Active', '2' => 'Inactive'];
-        return view('rank.index', compact('rankList','statusArr','pageArr'));
+        
+    if($request->view == 'pdf'){
+         $rankList = $rankList->get();
+         $pdf = PDF::loadview('rank.print.index', compact('request','rankList','statusArr','pageArr'));
+        return $pdf->download($request->id.'pdf');  
+    }
+//    elseif ($request->view == 'excel') {
+//         return Excel::download(new RanksExport, 'ranks.xlsx');
+//    }
+    else{
+         $rankList = $rankList->paginate(2);
+      return view('rank.index', compact('rankList','statusArr','pageArr'));     
+    }
+     
+     
     }
 
     /**
@@ -85,9 +104,9 @@ class RankController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function edit(Request $request,$id) {
-        
+        $pageArr = $request->all();
         $target = Rank::find($id);
-        return view('rank.edit', compact('target'));
+        return view('rank.edit', compact('target','pageArr'));
     }
 
     /**
@@ -99,7 +118,8 @@ class RankController extends Controller {
      */
     public function update(Request $request, $id) {
         $target = Rank::find($id);
-        
+        $pageArr = $request->all();
+        $pageNumber=$pageArr['filter'];
         $validator = Validator::make($request->all(), [
             'name' => 'required',
             'code' => 'required',
@@ -107,7 +127,7 @@ class RankController extends Controller {
         ]);
 
         if ($validator->fails()) {
-            return redirect('rank/'.$id.'/edit')
+            return redirect('rank/'.$id.'/edit'.$pageNumber)
                         ->withErrors($validator)
                         ->withInput();
         }
@@ -119,7 +139,7 @@ class RankController extends Controller {
         if ($target->save()) {
             Session::flash('Success', __('label.USER_HAS_BEEN_UPDATED_SUCCESSFULLY'));
         }
-        return redirect('rank');
+        return redirect('rank'.$pageNumber);
     }
 
     /**
@@ -142,6 +162,11 @@ class RankController extends Controller {
            return redirect ('rank');
         }
         return redirect ('rank?'.'search='.$target);
+    }
+    
+   public function export() 
+    {
+        
     }
 
 }

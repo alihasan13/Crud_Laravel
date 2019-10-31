@@ -8,8 +8,8 @@
 
             <?php echo csrf_field(); ?>
             <div class="form-group">
-                <label>Name <span class="text-danger">*</span></label>
-                <?php echo e(Form::text('name',null,['class'=> 'form-control'])); ?>
+                <label for='name'>Name <span class="text-danger">*</span></label>
+                <?php echo e(Form::text('name',null,['class'=> 'form-control','id'=>'name'])); ?>
 
                 <span class="text-danger"><?php echo $errors->first('name'); ?></span>
             </div>
@@ -26,7 +26,7 @@
                         </div>-->
             <div class="form-group ">
                 <label >Status <span class="text-danger">*</span></label>
-                <?php echo e(Form::select('status',['0'=>'select status','1' => 'Active','2'=>'Inactive' ])); ?> </br>
+                <?php echo e(Form::select('status',['0'=>'select status','1' => 'Active','2'=>'Inactive' ],null,['class'=>"form-control",'data-live-search'=>"true","data-width"=>"100%"])); ?> </br>
                 <span class="text-danger"><?php echo $errors->first('status'); ?></span>
 
 

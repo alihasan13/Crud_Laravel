@@ -5,7 +5,11 @@
             
             <?php echo e(Form::model($target, ['route' => ['update', $target->id], 'method' => 'patch'] )); ?>
 
+            <?php echo e(Form::hidden('filter',Helper::pageDefine($pageArr))); ?>
+
+            
             <?php echo csrf_field(); ?>
+            
             <div class="  form-group col">
                 <label >Name <span class="text-danger">*</span></label>
                 <?php echo e(Form::text('name', null  ,['class' => 'form-control'])); ?>

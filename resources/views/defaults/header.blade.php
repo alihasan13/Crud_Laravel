@@ -13,6 +13,7 @@
     <title>Laravel CRUD Operation</title>
     <!-- Bootstrap Core CSS -->
     <link href="{{asset('public/assets/plugins/bootstrap/css/bootstrap.min.css')}}" rel="stylesheet">
+    <link href="{{asset('public/assets/plugins/bootstrap/css/bootstrap_select.css')}}" rel="stylesheet">
     <!-- chartist CSS -->
     <link href="{{asset('public/assets/plugins/chartist-js/dist/chartist.min.css')}}" rel="stylesheet">
     <link href="{{asset('public/assets/plugins/chartist-js/dist/chartist-init.css')}}" rel="stylesheet">

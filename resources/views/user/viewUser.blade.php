@@ -53,19 +53,21 @@
                                 <td>{{$user->first_name}}</td>
                                 <td>{{$user->last_name}}</td>
                                 <td>{{$user->email}}</td>
-                                <td>{{$user->gender}}</td>
+                                <td>{{ isset($user->gender) && isset($genderArr[$user->gender]) ? $genderArr[$user->gender] : ''}}</td>
                                 <td>{{$user->phone}}</td>
                                 <td>{{$user->hobby}}</td>
                                 <td>{{$user->address}}</td>
-                                <td>{{$user->country}}</td>
-                                <td>{{$user->status}}</td>
+                                <td>{{ isset($user->country) && isset($countryArr[$user->country]) ? $countryArr[$user->country] : ''}}</td>
+                                <td>{{ isset($user->status) && isset($statusArr[$user->status]) ? $statusArr[$user->status] : ''}}</td>
                                 <td>  
                                     <div>
                                         {{ Form::open(array('url' => 'user/' . $user->id)) }}
                                         {{ Form::hidden('_method', 'DELETE') }}
 
-                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-danger delete tooltips" href="{{ route('user.edit',$user->id) }}" ><i class="mdi mdi-account-edit"></i></a>
-                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-danger tooltips modal-show" id="modalShow" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$user->id}}"><i class="mdi mdi-face-profile"></i></a>
+                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-success  tooltips" data-rel="tooltip" href="{{ route('user.edit',$user->id) }}" ><i class="mdi mdi-account-edit"></i></a>
+                                        <a class="waves-effect waves-dark  btn btn-icon-only  btn-secondary  tooltips modal-show" id="modalShow" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$user->id}}"><i class="mdi mdi-face-profile"></i></a>
+                                        <a class="btn btn-icon-only btn-info  tooltips" data-placement="top" data-rel="tooltip"  href="{{URL::to('user?id='.$user->id.'&view=pdf')}}"> 
+                                            <i class="mdi mdi-file-pdf"></i></a>
                                         <button class="btn btn-icon-only btn-danger delete tooltips" title="Delete" type="submit" data-placement="top" data-rel="tooltip" data-original-title="Delete">
                                             <i class="mdi mdi-delete-sweep"></i>
                                         </button>
@@ -88,31 +90,31 @@
 
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Profile Information</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body" id="profileView">
-                    
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLongTitle">Profile Information</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="profileView">
 
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
             </div>
         </div>
     </div>
+</div>
 <script type="text/javascript">
     $(function () {
-        $(document).on('click','.modal-show', function () {
+        $(document).on('click', '.modal-show', function () {
             var userId = $(this).data('id');
-            
+
             $.ajax({
                 url: "{{ URL::to('userProfile') }}",
                 type: 'POST',
@@ -122,12 +124,12 @@
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
-                beforeSend: function() { 
-                $("#profileView").html('<div id="wait" class="text-center"><img src={{asset('public/image/loder.gif')}} width="200" height="auto" alt="Loading..." /></div>');
-                $('#wait').show(); 
-            },
+                beforeSend: function () {
+                    $("#profileView").html('<div id="wait" class="text-center"><img src={{asset('public / image / loder.gif')}} width="200" height="auto" alt="Loading..." /></div>');
+                    $('#wait').show();
+                },
                 success: function (data) {
-                    $('#wait').hide(); 
+                    $('#wait').hide();
                     $('#profileView').html(data.view);
 
                 },

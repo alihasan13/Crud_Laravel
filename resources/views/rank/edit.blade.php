@@ -5,7 +5,10 @@
         <div class="col">
             
             {{ Form::model($target, ['route' => ['update', $target->id], 'method' => 'patch'] ) }}
+            {{Form::hidden('filter',Helper::pageDefine($pageArr))}}
+            
             @csrf
+            
             <div class="  form-group col">
                 <label >Name <span class="text-danger">*</span></label>
                 {{Form::text('name', null  ,['class' => 'form-control'])}}

@@ -6,6 +6,7 @@
     <!-- Bootstrap tether Core JavaScript -->
     <script src="{{asset('public/assets/plugins/bootstrap/js/tether.min.js')}}"></script>
     <script src="{{asset('public/assets/plugins/bootstrap/js/bootstrap.min.js')}}"></script>
+
     <!-- slimscrollbar scrollbar JavaScript -->
     <script src="{{asset('public/js/jquery.slimscroll.js')}}"></script>
     <!--Wave Effects -->
@@ -25,5 +26,6 @@
     <!--c3 JavaScript -->
     <script src="{{asset('public/assets/plugins/d3/d3.min.js')}}"></script>
     <script src="{{asset('public/assets/plugins/c3-master/c3.min.js')}}"></script>
+        <script src="{{asset('public/assets/plugins/bootstrap/js/select.js')}}"></script>
     <!-- Chart JS -->
 <!--    <script src="{{asset('public/js/dashboard1.js')}}"></script>-->

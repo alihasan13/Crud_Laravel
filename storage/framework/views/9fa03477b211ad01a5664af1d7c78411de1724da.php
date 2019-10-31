@@ -15,10 +15,14 @@
                     <?php echo e(Form::submit('Search',['class' => 'btn btn-primary'])); ?>
 
                 </div>
+                
             </div>
         <?php echo e(Form::Close()); ?>
 
     </div>
+    <div class=" col form-group">
+                    <a  class="btn btn-primary "href="<?php echo e(URL::to('rank?view=excel')); ?>">excel</a>
+                </div>
     <div class="row">
         <div class="col">
             <div class="card">
@@ -63,7 +67,10 @@
 
                                             <?php echo e(Form::hidden('_method', 'DELETE')); ?>
 
-                                            <a class="waves-effect waves-dark  btn btn-icon-only btn-danger  tooltips" href="<?php echo e(URL::to('rank/'.$ranks->id.'/edit?Helper::pageDefine($pageArr)')); ?>" ><i class="mdi mdi-account-edit"></i></a>
+                                            <a class="waves-effect waves-dark  btn btn-icon-only btn-danger  tooltips" href="<?php echo e(URL::to('rank/'.$ranks->id.'/edit'.Helper::pageDefine($pageArr))); ?>" >
+                                                <i class="mdi mdi-account-edit"></i></a>
+                                            <a class="btn btn-icon-only btn-info  tooltips" data-placement="top" data-rel="tooltip" href="<?php echo e(URL::to('rank?id='.$ranks->id.'&view=pdf')); ?>"> 
+                                                <i class="mdi mdi-file-pdf"></i></a>
                                             <button class="btn btn-icon-only btn-success delete tooltips" title="Delete" type="submit" data-placement="top" data-rel="tooltip" data-original-title="Delete">
                                                 <i class="mdi mdi-delete-sweep"></i>
                                             </button>
