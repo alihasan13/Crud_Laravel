@@ -73,4 +73,4 @@
     </div>
 </div>
 
-<?php /**PATH K:\server\htdocs\laravelProject\resources\views/user/showProfile.blade.php ENDPATH**/ ?>
+<?php /**PATH K:\server\htdocs\laravelProject\resources\views/student/showProfile.blade.php ENDPATH**/ ?>

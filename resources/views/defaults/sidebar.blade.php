@@ -4,18 +4,19 @@
         <!-- Sidebar navigation-->
         <nav class="sidebar-nav">
             <ul id="sidebarnav">
-                <li> <a class="waves-effect waves-dark" href="#" aria-expanded="false"><i class="mdi mdi-gauge"></i><span class="hide-menu">Dashboard</span></a>
-                </li>
-                <li> <a class="waves-effect waves-dark" href="{{ URL::to('showProfile')}}" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Profile</span></a>
+                
+<!--                <li> <a class="waves-effect waves-dark" href="{{ URL::to('user') }}" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Student</span></a>
+                </li>-->
+                <li> <a class="waves-effect waves-dark" href="{{ URL::to('student') }}" aria-expanded="false"><i class="mdi mdi-account-check"></i><span class="hide-menu">Student Management</span></a>
                 </li>
                 <li> <a class="waves-effect waves-dark" href="{{ URL::to('user')}}" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">View Users</span></a>
                 </li>
                 <li> <a class="waves-effect waves-dark" href="{{ URL::to('rank')}}" aria-expanded="false"><i class="mdi mdi-table"></i><span class="hide-menu">Rank Table</span></a>
                 </li>
                 <li> <a class="waves-effect waves-dark" href="{{ URL::to('createUser') }}" aria-expanded="false"><i class="mdi mdi-account-plus"></i><span class="hide-menu">Create User</span></a>
-                </li><!--
-                <li> <a class="waves-effect waves-dark" href="pages-blank.html" aria-expanded="false"><i class="mdi mdi-book-open-variant"></i><span class="hide-menu">Blank Page</span></a>
-                </li>-->
+                </li>
+         
+                
               
             </ul>
             

@@ -1,7 +1,7 @@
 <?php $__env->startSection('content'); ?>
 
 <div>
-    <?php echo e(Form::open(['url' => 'filter','method' => 'post'])); ?>
+    <?php echo e(Form::open(['url' => 'filterUser','method' => 'post'])); ?>
 
     <?php echo csrf_field(); ?>
     <div class="d-flex  ">
@@ -29,6 +29,9 @@
         <?php echo $__env->make('defaults.flash', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
         <div class="card">
             <div class="card-block">
+                <div class="pull-right">
+                    <a  class="btn btn-primary " href="createUser">Create User</a>
+                </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -69,7 +72,7 @@
                                         <?php echo e(Form::hidden('_method', 'DELETE')); ?>
 
 
-                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-success  tooltips" data-rel="tooltip" href="<?php echo e(route('user.edit',$user->id)); ?>" ><i class="mdi mdi-account-edit"></i></a>
+                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-success  tooltips" data-rel="tooltip" href="<?php echo e(route('user.edit',$user->id)); ?>"><i class="mdi mdi-account-edit"></i></a>
                                         <a class="waves-effect waves-dark  btn btn-icon-only  btn-secondary  tooltips modal-show" id="modalShow" data-toggle="modal" data-target="#exampleModalCenter" data-id="<?php echo e($user->id); ?>"><i class="mdi mdi-face-profile"></i></a>
                                         <a class="btn btn-icon-only btn-info  tooltips" data-placement="top" data-rel="tooltip"  href="<?php echo e(URL::to('user?id='.$user->id.'&view=pdf')); ?>"> 
                                             <i class="mdi mdi-file-pdf"></i></a>
@@ -82,13 +85,14 @@
 
                                 </td>
                             </tr>
-
                             <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                             <?php endif; ?>
-                            <?php echo e($users->links()); ?>
-
                         </tbody>
                     </table>
+                    <div class="pull-right">
+                        <?php echo e($users->links()); ?>
+
+                    </div>
                 </div>
             </div>
         </div>
@@ -107,7 +111,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <div class="modal-body" id="profileView">
+            <div class="modal-body" id="modalContent">
 
             </div>
             <div class="modal-footer">
@@ -132,12 +136,12 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 },
                 beforeSend: function () {
-                    $("#profileView").html('<div id="wait" class="text-center"><img src=<?php echo e(asset('public / image / loder.gif')); ?> width="200" height="auto" alt="Loading..." /></div>');
+                    $("#modalContent").html('<div id="wait" class="text-center"><img src=<?php echo e(asset('public / image / loder.gif')); ?> width="200" height="auto" alt="Loading..." /></div>');
                     $('#wait').show();
                 },
                 success: function (data) {
                     $('#wait').hide();
-                    $('#profileView').html(data.view);
+                    $('#modalContent').html(data.view);
 
                 },
                 error: function (data) {
@@ -147,6 +151,9 @@
 
             })
         });
+        
+
+        
     });
 </script>
 

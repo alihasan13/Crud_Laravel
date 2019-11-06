@@ -21,7 +21,7 @@
 
     </div>
     <div class=" col form-group">
-                    <a  class="btn btn-primary "href="<?php echo e(URL::to('rank?view=excel')); ?>">excel</a>
+                    <a  class="btn btn-primary "href="<?php echo e(URL::to('rank/export')); ?>">excel</a>
                 </div>
     <div class="row">
         <div class="col">

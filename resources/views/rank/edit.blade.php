@@ -4,7 +4,7 @@
     <div class="row ">
         <div class="col">
             
-            {{ Form::model($target, ['route' => ['update', $target->id], 'method' => 'patch'] ) }}
+            {{ Form::model($target, ['route' => ['updateRank', $target->id], 'method' => 'patch'] ) }}
             {{Form::hidden('filter',Helper::pageDefine($pageArr))}}
             
             @csrf

@@ -10,6 +10,7 @@ use Validator;
 use Helper;
 use PDF;
 use Excel;
+use App\Exports\RanksExport;
 
 class RankController extends Controller {
 
@@ -19,34 +20,36 @@ class RankController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request) {
-        
+
         $pageArr = $request->all();
         $rankList = Rank::select('*');
-        
-        if(!empty($request->search)){
-            $rankList = $rankList->where('code','LIKE', "%".$request->search."%");
+
+        if (!empty($request->search)) {
+            $rankList = $rankList->where('code', 'LIKE', "%" . $request->search . "%");
         }
-        if(!empty($request->id)){
-           $rankList = $rankList->where('id',$request->id);   
+        if (!empty($request->id)) {
+            $rankList = $rankList->where('id', $request->id);
         }
-        $rankList = $rankList->orderBy('id','DESC');
-        
+        $rankList = $rankList->orderBy('id', 'DESC');
+
         $statusArr = ['1' => 'Active', '2' => 'Inactive'];
-        
-    if($request->view == 'pdf'){
-         $rankList = $rankList->get();
-         $pdf = PDF::loadview('rank.print.index', compact('request','rankList','statusArr','pageArr'));
-        return $pdf->download($request->id.'pdf');  
-    }
-//    elseif ($request->view == 'excel') {
-//         return Excel::download(new RanksExport, 'ranks.xlsx');
-//    }
-    else{
-         $rankList = $rankList->paginate(2);
-      return view('rank.index', compact('rankList','statusArr','pageArr'));     
-    }
-     
-     
+
+        if ($request->view == 'pdf') {
+            $rankList = $rankList->get();
+            $pdf = PDF::loadview('rank.print.index', compact('request', 'rankList', 'statusArr', 'pageArr'));
+            return $pdf->download($request->id . 'pdf');
+        }
+//        elseif ($request->view == 'excel') {
+//            $excel = Excel::loadView('rank.print.index', compact('request', 'rankList', 'statusArr', 'pageArr'))
+//                    ->setTitle('FileName')
+//                    ->sheet('SheetName')
+//                    ->export('xls');
+//            return $excel->export();
+//        }
+        else {
+            $rankList = $rankList->paginate(2);
+            return view('rank.index', compact('rankList', 'statusArr', 'pageArr'));
+        }
     }
 
     /**
@@ -65,16 +68,16 @@ class RankController extends Controller {
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request) {
-         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'code' => 'required',
-            'status' => 'required|not_in:0',
+        $validator = Validator::make($request->all(), [
+                    'name' => 'required',
+                    'code' => 'required',
+                    'status' => 'required|not_in:0',
         ]);
 
         if ($validator->fails()) {
             return redirect('rank/create')
-                        ->withErrors($validator)
-                        ->withInput();
+                            ->withErrors($validator)
+                            ->withInput();
         }
         $target = new Rank();
         $target->name = $request->name;
@@ -103,10 +106,10 @@ class RankController extends Controller {
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(Request $request,$id) {
+    public function edit(Request $request, $id) {
         $pageArr = $request->all();
         $target = Rank::find($id);
-        return view('rank.edit', compact('target','pageArr'));
+        return view('rank.edit', compact('target', 'pageArr'));
     }
 
     /**
@@ -119,17 +122,17 @@ class RankController extends Controller {
     public function update(Request $request, $id) {
         $target = Rank::find($id);
         $pageArr = $request->all();
-        $pageNumber=$pageArr['filter'];
+        $pageNumber = $pageArr['filter'];
         $validator = Validator::make($request->all(), [
-            'name' => 'required',
-            'code' => 'required',
-            'status' => 'required|not_in:0',
+                    'name' => 'required',
+                    'code' => 'required',
+                    'status' => 'required|not_in:0',
         ]);
 
         if ($validator->fails()) {
-            return redirect('rank/'.$id.'/edit'.$pageNumber)
-                        ->withErrors($validator)
-                        ->withInput();
+            return redirect('rank/' . $id . '/edit' . $pageNumber)
+                            ->withErrors($validator)
+                            ->withInput();
         }
 
         $target->name = $request->name;
@@ -139,7 +142,7 @@ class RankController extends Controller {
         if ($target->save()) {
             Session::flash('Success', __('label.USER_HAS_BEEN_UPDATED_SUCCESSFULLY'));
         }
-        return redirect('rank'.$pageNumber);
+        return redirect('rank' . $pageNumber);
     }
 
     /**
@@ -155,18 +158,19 @@ class RankController extends Controller {
         }
         return redirect('rank');
     }
-    public function filter(Request $request){
-        $target= $request->text;
+
+    public function filter(Request $request) {
+        $target = $request->text;
 //        echo $target;exit;
-        if(empty($target)){
-           return redirect ('rank');
+        if (empty($target)) {
+            return redirect('rank');
         }
-        return redirect ('rank?'.'search='.$target);
+        return redirect('rank?' . 'search=' . $target);
     }
-    
-   public function export() 
-    {
-        
+
+    public function export() {
+        return Excel::download(new RanksExport, 'rank.xlsx');
+//        return (new RanksExport)->download('ranks.csv', \Maatwebsite\Excel\Excel::CSV);
     }
 
 }

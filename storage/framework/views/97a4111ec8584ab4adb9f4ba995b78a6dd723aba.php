@@ -3,7 +3,7 @@
     <div class="row ">
         <div class="col">
             
-            <?php echo e(Form::model($target, ['route' => ['update', $target->id], 'method' => 'patch'] )); ?>
+            <?php echo e(Form::model($target, ['route' => ['updateRank', $target->id], 'method' => 'patch'] )); ?>
 
             <?php echo e(Form::hidden('filter',Helper::pageDefine($pageArr))); ?>
 

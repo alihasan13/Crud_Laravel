@@ -1,8 +1,9 @@
+
 @extends ('layouts.master')
 @section ('content')
 
 <div>
-    {{ Form::open(['url' => 'filterUser','method' => 'post']) }}
+    {{ Form::open(['url' => 'filter','method' => 'post']) }}
     @csrf
     <div class="d-flex  ">
         <div class="  form-group col-md-10">
@@ -27,7 +28,7 @@
         <div class="card">
             <div class="card-block">
                 <div class="pull-right">
-                    <a  class="btn btn-primary " href="createUser">Create User</a>
+                    <a  class="btn btn-primary " id="modalShowCreate" data-toggle="modal" data-target="#exampleModalCenter" href="">Create Student</a>
                 </div>
                 <div class="table-responsive">
                     <table class="table">
@@ -48,7 +49,7 @@
                         </thead>
                         <tbody>
 
-                            @if(!$users->isEmpty())
+                            @if(!empty($users))
                             @foreach($users as $user)
 
                             <tr>
@@ -66,8 +67,8 @@
                                     <div>
                                         {{ Form::open(array('url' => 'user/' . $user->id)) }}
                                         {{ Form::hidden('_method', 'DELETE') }}
-
-                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-success  tooltips" data-rel="tooltip" href="{{ route('user.edit',$user->id) }}"><i class="mdi mdi-account-edit"></i></a>
+                                        <!--href="{{ route('user.edit',$user->id) }}"-->
+                                        <a class="waves-effect waves-dark  btn btn-icon-only btn-success  tooltips" data-rel="tooltip" id="modalShowEdit" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$user->id}}" ><i class="mdi mdi-account-edit"></i></a>
                                         <a class="waves-effect waves-dark  btn btn-icon-only  btn-secondary  tooltips modal-show" id="modalShow" data-toggle="modal" data-target="#exampleModalCenter" data-id="{{$user->id}}"><i class="mdi mdi-face-profile"></i></a>
                                         <a class="btn btn-icon-only btn-info  tooltips" data-placement="top" data-rel="tooltip"  href="{{URL::to('user?id='.$user->id.'&view=pdf')}}"> 
                                             <i class="mdi mdi-file-pdf"></i></a>
@@ -93,10 +94,9 @@
 </div>
 
 
-
 <!-- Modal -->
-<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered" role="document">
+<div class="modal fade "  id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLongTitle">Profile Information</h5>
@@ -144,11 +144,64 @@
 
             })
         });
-        
 
-        
+        //for create user
+        $(document).on('click', '#modalShowCreate', function () {
+
+            $.ajax({
+                url: "{{ URL::to('createStudent') }}",
+                type: 'GET',
+                dataType: 'html',
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function (data) {
+                    $('#modalContent').html(data);
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                    $('#saveBtn').html('Save Changes');
+                }
+
+            })
+        });
+
+        //for student edit
+        $(document).on('click', '#modalShowEdit', function () {
+            var userId = $(this).data('id');
+
+            $.ajax({
+                url: "{{ URL::to('edit') }}",
+                type: 'post',
+                data: {id: userId},
+                dataType: 'json',
+                cache: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+
+                success: function (data) {
+                    $('#modalContent').html(data.info);
+
+                    Swal.fire({
+                        position: 'top-end',
+                        type: 'success',
+                        title: 'Your work has been saved',
+                        showConfirmButton: false,
+                        timer: 1500
+                    });
+                },
+                error: function (data) {
+                    console.log('Error:', data);
+                    $('#saveBtn').html('Save Changes');
+                }
+
+            })
+        });
+
     });
 </script>
 
-
-@stop  
+@stop

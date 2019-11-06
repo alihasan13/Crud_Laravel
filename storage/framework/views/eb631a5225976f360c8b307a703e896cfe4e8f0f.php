@@ -6,19 +6,19 @@
             <?php echo e(Form::model($userInfo, ['route' => ['user.update', $userInfo->id], 'method' => 'patch' ,'files'=>true] )); ?>
 
             <?php echo csrf_field(); ?>
+            <div class="d-flex  ">
+                <div class="  form-group col">
+                    <label >First Name</label>
+                    <?php echo e(Form::text('first_name',  $userInfo->first_name ,['class' => 'form-control'])); ?>
 
-            <div class="  form-group">
-                <label >First Name</label>
-                <?php echo e(Form::text('first_name',  $userInfo->first_name ,['class' => 'form-control'])); ?>
 
+                </div>
+                <div class="form-group  col">
+                    <label >Last Name</label>
+                    <?php echo e(Form::text('last_name',   $userInfo->last_name ,['class' => 'form-control'])); ?>
 
+                </div>
             </div>
-            <div class="form-group ">
-                <label >Last Name</label>
-                <?php echo e(Form::text('last_name',   $userInfo->last_name ,['class' => 'form-control'])); ?>
-
-            </div>
-
             <div class="form-group ">
                 <label >Gender</label><br>
                 <?php echo e(Form::radio('gender','1',  $userInfo->gender == '1' ? true : false,[ ])); ?> Male &nbsp;&nbsp;
@@ -45,21 +45,22 @@
                 <label >Hobby</label> <br>
 
 
-
+               
                 <?php $__currentLoopData = $hobbyArr; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key=>$hobbies): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
-                <?php
-                if (in_array($key, $previousHobby)) {
-                    $checked = 'checked';
-                } else {
-                    $checked = '';
-                }
-                ?>
-                <?php echo e(Form::checkbox('hobby[]',$key,$checked)); ?> <?php echo e($hobbies); ?>
+                                <?php
+                
+                        if (in_array($key, $previousHobby)) {
+                            $checked = 'checked';
+                        }else{
+                            $checked = '';
+                        }
+                 ?>
+                    <?php echo e(Form::checkbox('hobby[]',$key,$checked)); ?> <?php echo e($hobbies); ?>
 
                 <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
-
-
-
+                
+               
+              
             </div>
             <div class="form-group  ">
                 <label >Address</label>
@@ -74,18 +75,18 @@
             </div>
             <div class="form-group ">
                 <label >Country</label>
-                <?php echo e(Form::select('country',['1' => 'Bangladesh','2'=>'India','2'=>'Australia','4'=>'Canada','5'=>'USA','6'=>'UK' ], null,['class'=>"form-control",'data-live-search'=>"true","data-width"=>"100%"])); ?>
+                <?php echo e(Form::select('country',['1' => 'Bangladesh','2'=>'India','2'=>'Australia','4'=>'Canada','5'=>'USA','6'=>'UK' ])); ?>
 
             </div>
             <div class="form-group ">
                 <label >Image</label>
-                <?php echo e(Form::file('image' ,['class' => 'form-control' ])); ?>
+                <?php echo e(Form::file('image', null ,['class' => 'form-control' ])); ?>
 
             </div>
 
             <div class="form-group ">
                 <label >Status</label>
-                <?php echo e(Form::select('cur_status',['1' => 'Active','2'=>'Inactive','3'=>'Under processing' ], null,['class'=>"form-control",'data-live-search'=>"true","data-width"=>"100%"])); ?>
+                <?php echo e(Form::select('cur_status',['1' => 'Active','2'=>'Inactive','3'=>'Under processing' ])); ?>
 
             </div>
             <div class="form-group ">

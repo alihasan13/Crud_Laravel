@@ -1,0 +1,32 @@
+ swal({
+                title: "Are you sure?",
+                text: "You want to save inserted data?",
+                type: "warning",
+                showCancelButton: true,
+                confirmButtonColor: '#DD6B55',
+                confirmButtonText: 'Yes, I am sure!',
+                cancelButtonText: "No, cancel it!",
+                closeOnConfirm: false,
+                closeOnCancel: false
+            }).then(function (isConfirm) {
+                if (isConfirm) {
+                    $.ajax({
+                        url: "{{ URL::to('storeStudent') }}",
+                        type: 'POST',
+                        data: formData,
+                        dataType: 'json',
+                        cache: false,
+                        processData: false,
+                        contentType: false,
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        success: function (res) {
+                            alert("Student  id had been created!!");
+                            location.reload();
+                        },
+                    });
+                } else {
+                    swal("Cancelled", "Your imaginary file is safe :)", "error");
+                }
+            });
