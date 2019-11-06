@@ -25,11 +25,11 @@ class UserController extends Controller {
         $countryArr = ['1' => 'Bangladesh', '2' => 'India', '3' => 'Australia', '4' => 'Canada', '5' => 'USA', '6' => 'UK'];
         if ($request->view == 'pdf') {
             $users = $users->get();
-            $pdf = PDF::loadview('user.print.viewUser', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
+            $pdf = PDF::loadview('user.print.indexUser', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
             return $pdf->download($request->id);
         } else {
             $users = $users->paginate(2);
-            return view('user.viewUser', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
+            return view('user.indexUser', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
         }
     }
 
@@ -163,7 +163,7 @@ class UserController extends Controller {
         //                ->where ('first_name', 'LIKE', "%{$text}%")
         //                ->simplePaginate(5);
         //       
-        //        return view('user.viewUser',['users' => $users]);
+        //        return view('user.indexUser',['users' => $users]);
         return redirect('user?' . $url);
     }
 

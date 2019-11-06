@@ -28,11 +28,11 @@ class StudentController extends Controller {
         $countryArr = ['1' => 'Bangladesh', '2' => 'India', '3' => 'Australia', '4' => 'Canada', '5' => 'USA', '6' => 'UK'];
         if ($request->view == 'pdf') {
             $users = $users->get();
-            $pdf = PDF::loadview('student.print.viewStudent', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
+            $pdf = PDF::loadview('student.print.indexStudent', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
             return $pdf->download($request->id);
         } else {
             $users = $users->paginate(10);
-            return view('student.viewStudent', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
+            return view('student.indexStudent', compact('users', 'statusArr', 'countryArr', 'genderArr', 'hobbyArr'));
         }
     }
 
